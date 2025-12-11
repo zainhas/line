@@ -1,14 +1,34 @@
-# Customer Service Agent with Cartesia and Together AI
+# Arcee AI Trinity-Mini Voice Agent Demo
 
-A real-time customer service voice agent integrating Together AI models with Cartesia Line SDK. This example demonstrates how to build a comprehensive customer support system with automated issue resolution, knowledge base search, ticket creation, and intelligent escalation to human agents.
+A real-time customer service voice agent showcasing **Arcee AI's Trinity-Mini** on **Together AI** with **Cartesia Voice Agents**. This demo demonstrates how to build intelligent voice applications using one of the most cost-efficient reasoning models available.
 
-## Architecture Overview
+## About Trinity-Mini
+
+[Trinity-Mini](https://huggingface.co/arcee-ai/trinity-mini) is Arcee AI's compact reasoning model, part of the Trinity family—a serious open-weight model family trained end-to-end in the United States.
+
+### Key Highlights
+
+- **Architecture**: 26B parameter MoE (Mixture of Experts) with only 3B active parameters per token
+- **Designed for Agents**: Optimized for tools, function calling, and multi-step reasoning workloads
+- **US-Trained**: Full end-to-end training in America with clean data provenance
+- **Open Weights**: Released under Apache 2.0 license
+- **Cost Efficient**: One of the most affordable models at $0.045/$0.15 per million tokens on Together AI
+
+### Technical Architecture
+
+Trinity-Mini incorporates cutting-edge techniques:
+- **Gated Attention**: G1 configuration for learned modulation of attention outputs
+- **DeepSeekMoE Design**: 128 routed experts with 8 active per token, plus 1 shared expert
+- **Sigmoid Routing**: Aux-loss-free load balancing for cleaner training objectives
+- **Extended Context**: Trained at 128k sequence length with local/global attention patterns
+
+## Demo Architecture
 
 ```
 ┌─────────────────┐    ┌─────────────────┐
 │   Customer      │    │ Escalation      │
 │   Service Node  │    │ Monitor Node    │
-│   (Llama-3.3)   │    │ (GLM-4.5)       │
+│ (Trinity-Mini)  │    │ (Trinity-Mini)  │
 ├─────────────────┤    ├─────────────────┤
 │ • Knowledge Base│    │ • Frustration   │
 │ • Ticket System │    │   Detection     │
@@ -19,10 +39,12 @@ A real-time customer service voice agent integrating Together AI models with Car
          └───────────────────────┘
                     │
             ┌───────────────┐
-            │ Line SDK      │
+            │ Cartesia Line │
             │ Voice System  │
             └───────────────┘
 ```
+
+This example uses Trinity-Mini for both the main conversational agent and the background escalation monitor, demonstrating its versatility for multi-agent voice applications.
 
 ## Features
 
@@ -35,7 +57,7 @@ A real-time customer service voice agent integrating Together AI models with Car
 ### **Background Monitoring**
 - **Escalation Detection**: Monitors conversation for frustration signals
 - **Complexity Assessment**: Identifies issues requiring human intervention
-- **Real-time Analysis**: Continuous conversation monitoring
+- **Real-time Analysis**: Continuous conversation monitoring with structured outputs
 
 ### **Customer Support Tools**
 - `search_knowledge_base`: Query FAQ and documentation
@@ -72,22 +94,30 @@ A real-time customer service voice agent integrating Together AI models with Car
 ### **Main Components**
 
 **CustomerServiceNode** (`customer_service_node.py`)
-- Primary conversational agent using meta-llama/Llama-3.3-70B-Instruct-Turbo
+- Primary conversational agent powered by Trinity-Mini
 - Handles customer interactions and tool execution
 - Manages knowledge base searches and ticket creation
 - Coordinates human escalation when needed
 
 **EscalationNode** (`escalation_node.py`)
-- Background monitoring using zai-org/GLM-4.5-Air-FP8 for efficiency
+- Background monitoring using Trinity-Mini with structured JSON outputs
 - Analyzes conversation patterns for escalation triggers
-- Provides structured escalation recommendations
+- Provides structured escalation recommendations (LOW/MEDIUM/HIGH)
 - Tracks escalation history and patterns
 
 **Utility Functions** (`openai_utils.py`)
-- Message format conversion for Together AI API compatibility
+- Message format conversion for Together AI's OpenAI-compatible API
 - Mock implementations of customer service backends
-- Tool schema definitions for Together AI function calling
+- Tool schema definitions for function calling
 - Helper functions for ticket creation and knowledge base search
+
+### **Model Configuration**
+
+Trinity-Mini uses these recommended settings (configured in `config.py`):
+```python
+TEMPERATURE = 0.15
+TOP_P = 0.75
+```
 
 ### **Customer Service Workflow**
 
@@ -164,14 +194,16 @@ Extend `openai_utils.py` to add new capabilities:
 ## Integration Patterns
 
 This example demonstrates key patterns for Line SDK integrations:
-- **Multi-node Architecture**: Primary + background processing
-- **Tool Integration**: OpenAI function calling with custom tools
+- **Multi-node Architecture**: Primary + background processing with the same model
+- **Tool Integration**: OpenAI-compatible function calling with custom tools
 - **Event-driven Communication**: Bridge system for inter-node messaging
-- **Structured Outputs**: JSON schemas for consistent data handling
+- **Structured Outputs**: JSON schemas for consistent escalation analysis
 - **Error Handling**: Graceful degradation and user-friendly error messages
 
-## Support
+## Learn More
 
-- **Documentation**: [Line Docs](https://docs.cartesia.ai/line/introduction)
+- **Trinity-Mini on Hugging Face**: [arcee-ai/trinity-mini](https://huggingface.co/arcee-ai/trinity-mini)
+- **Arcee AI**: [arcee.ai](https://arcee.ai)
+- **Together AI**: [together.ai](https://together.ai)
+- **Cartesia Line Docs**: [docs.cartesia.ai/line](https://docs.cartesia.ai/line/introduction)
 - **Community**: [Discord](https://discord.gg/cartesia)
-- **Examples**: Check out other integrations in this repository
