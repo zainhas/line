@@ -82,6 +82,9 @@ class EscalationNode(ReasoningNode):
                 messages=openai_messages,
                 max_tokens=100,
                 temperature=config.TEMPERATURE,
+                top_k=config.TOP_K,
+                top_p=config.TOP_P,
+                min_p=config.MIN_P,
                 response_format=response_format,
             )
 

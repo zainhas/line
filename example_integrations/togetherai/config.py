@@ -66,10 +66,15 @@ class EscalationAlert(BaseModel):
 
 
 # Together AI Configuration
-MAX_OUTPUT_TOKENS = 150
-MODEL_ID = "meta-llama/Llama-3.3-70B-Instruct-Turbo"
-MODEL_ID_ESCALATION = "zai-org/GLM-4.5-Air-FP8"
-TEMPERATURE = 0.3
+MAX_OUTPUT_TOKENS = 15000
+MODEL_ID = "arcee-ai/trinity-mini"
+MODEL_ID_ESCALATION = "arcee-ai/trinity-mini"
+
+# Recommended settings for arcee-ai/trinity-mini
+TEMPERATURE = 0.15
+TOP_K = 50
+TOP_P = 0.75
+MIN_P = 0.06
 
 # Mock data for knowledge base
 KNOWLEDGE_BASE = {
