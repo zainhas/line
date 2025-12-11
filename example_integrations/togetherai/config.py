@@ -72,9 +72,7 @@ MODEL_ID_ESCALATION = "arcee-ai/trinity-mini"
 
 # Recommended settings for arcee-ai/trinity-mini
 TEMPERATURE = 0.15
-TOP_K = 50
 TOP_P = 0.75
-MIN_P = 0.06
 
 # Mock data for knowledge base
 KNOWLEDGE_BASE = {

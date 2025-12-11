@@ -70,9 +70,7 @@ class CustomerServiceNode(ReasoningNode):
                 messages=openai_messages,
                 max_tokens=config.MAX_OUTPUT_TOKENS,
                 temperature=config.TEMPERATURE,
-                top_k=config.TOP_K,
                 top_p=config.TOP_P,
-                min_p=config.MIN_P,
                 tools=self.tools,
                 tool_choice="auto",
             )
@@ -115,9 +113,7 @@ class CustomerServiceNode(ReasoningNode):
                             messages=follow_up_messages,
                             max_tokens=config.MAX_OUTPUT_TOKENS,
                             temperature=config.TEMPERATURE,
-                            top_k=config.TOP_K,
                             top_p=config.TOP_P,
-                            min_p=config.MIN_P,
                         )
 
                         yield AgentResponse(content=follow_up_response.choices[0].message.content)
